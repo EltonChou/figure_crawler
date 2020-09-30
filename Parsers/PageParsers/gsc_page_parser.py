@@ -1,18 +1,13 @@
 from datetime import datetime
+from ..PageParsers import YearlyAnnouncement
 
 import requests as rq
 from bs4 import BeautifulSoup
 
 
-class GSCYearlyAnnouncement:
-    def __init__(self, category, start=2006, end=None, lang="ja"):
-        if not end:
-            end = datetime.now().year
-
-        if end < start:
-            raise ValueError
-
-        self.period = range(start, end+1)
+class GSCYearlyAnnouncement(YearlyAnnouncement):
+    def __init__(self, category, _from=2006, to=None, lang="ja"):
+        super().__init__(_from, to)
         self.base_url = make_base_url(category, lang)
 
     def __iter__(self):
